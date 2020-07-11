@@ -32,26 +32,26 @@ const campsiteSchema = new Schema({
     description: {
         type: String,
         required: true
-        },
-        image: {
-          type: String,
-          required: true  
-        },
-        elevation: {
-            type: Number,
-            required: true
-        },
-        cost : {
-            type: Currency,
-            required: true
-        },
-        featured: {
-            type: Boolean,
-            default: false
-        },
-        comments: [commentSchema]
+    },
+    image: {
+        type: String,
+        required: true  
+    },
+    elevation: {
+        type: Number,
+        required: true
+    },
+    cost : {
+        type: Currency,
+        required: true
+    },
+    featured: {
+        type: Boolean,
+        default: false
+    },
+    comments: [commentSchema]
     }, {
-        timestamps: true
+    timestamps: true
 });
 
 const Campsite = mongoose.model('Campsite', campsiteSchema);
