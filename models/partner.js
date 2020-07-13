@@ -19,7 +19,8 @@ const partnerSchema = new Schema({
     description: {
         type: String,
         required: true  
-    }}, {
+    }
+}, {
     timestamps: true
 });
 
