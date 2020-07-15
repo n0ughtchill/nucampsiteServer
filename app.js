@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
+const passport = require('passport');
+const authenticate = require('./authenticate');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -45,25 +47,21 @@ app.use(session({
   store: new FileStore()
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-function auth (req, res, next) {
-  console.log(req.session);
+function auth(req, res, next) {
+  console.log(req.user);
 
-  if (!req.session.user) {
-      const err = new Error('You are not authenticated!');
-      err.status = 401;
-      return next(err);
+  if (!req.user) {
+    const err = new Error('You are not authenticated!');
+    err.status = 401;
+    return next(err);
   } else {
-      if (req.session.user === 'authenticated') {
-          console.log('req.session:', req.session);
-          return next();
-      } else {
-          const err = new Error('You are not authenticated!');
-          err.status = 401;
-          return next(err);
-      }
+    return next();
   }
 }
 
@@ -77,12 +75,12 @@ app.use('/promotions', promotionRouter);
 app.use('/partners', partnerRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
