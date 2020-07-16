@@ -16,8 +16,8 @@ const commentSchema = new Schema({
         required: true
     },
     author: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 }, {
     timestamps: true
@@ -35,13 +35,13 @@ const campsiteSchema = new Schema({
     },
     image: {
         type: String,
-        required: true  
+        required: true
     },
     elevation: {
         type: Number,
         required: true
     },
-    cost : {
+    cost: {
         type: Currency,
         required: true
     },
@@ -50,7 +50,7 @@ const campsiteSchema = new Schema({
         default: false
     },
     comments: [commentSchema]
-    }, {
+}, {
     timestamps: true
 });
 
